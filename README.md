@@ -37,3 +37,9 @@ Link to website: https://elitedatascience.com/machine-learning-projects-for-begi
 - Hit By Pitch: 1 point
 - Stolen Bases: 2 points
 - Caught Stealing: -1 points
+
+# Types of models we can use
+- RBN:	Radial Basic Network (for function approximation problems)
+- DFF:	Deep Feed-forward (for pattern recognition, financial prediction)
+- MC:	Markov Chain (Baseball scores, stock performances)
+- RBM:	Restricted Boltzmann Machine (bsiness analysis and risk detection)
