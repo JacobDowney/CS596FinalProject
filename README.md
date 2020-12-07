@@ -1,7 +1,7 @@
 # Readme
 Link to website: https://elitedatascience.com/machine-learning-projects-for-beginners
 
-Batter stat sheets abreviation meanings:
+# Batter stat sheets abreviation meanings:
 
 - Plyr:	The player's name, main identifier
 - Team:	What team the play plays on
@@ -25,3 +25,15 @@ Batter stat sheets abreviation meanings:
 - AVG:	Batting Average. Percent of time batter successfully makes a hit while at bat. (H/AB)
 - OBP:	On-Base Percentage. Percent advancing because of good hit. (H+BB+HBP)/(AB+BB+HBP+SF)
 - SLG:	Slugging Percentage. Power and productivity as hitter. (TB/AB)
+
+# How points are calculated
+- Singles: 1 point
+- Doubles: 2 points
+- Triples: 3 points
+- Home Runs: 4 points
+- Runs: 1 point
+- Runs Batter In: 1 point
+- Walks: 1 point
+- Hit By Pitch: 1 point
+- Stolen Bases: 2 points
+- Caught Stealing: -1 points
