@@ -44,7 +44,10 @@ def scorePlayers(data):
         # stolen bases - caught stealing
         score += (2*d[9]) - d[10]
         scores.append(score)
-    return scores
+    maxScore = 0
+    for score in scores:
+        maxScore = max(maxScore, score)
+    return [x / maxScore for x in scores]
 
 # Takes dictionary of (playerName -> list of stats) and finds max and mins of
 # each stat for normalization purposes and returns a dictionary of
