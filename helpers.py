@@ -1,6 +1,7 @@
 import csv
 import os
 
+# Takes in a file name and returns a dictionary of player names to list of stats
 def parseData(fileName):
     if os.path.exists(fileName):
         try:
@@ -23,6 +24,9 @@ def parseData(fileName):
     else:
         return [], {}
 
+# Takes dictionary of (playerName -> list of stats) and finds max and mins of
+# each stat for normalization purposes and returns a dictionary of
+# (playerName -> list of normalized stats ranged (0, 1.0))
 def normalizeData(players):
     playersNormalized = {}
     maxmins = []
