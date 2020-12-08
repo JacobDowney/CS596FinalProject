@@ -1,5 +1,13 @@
 import csv
 import os
+import random
+import time
+
+def splitData(numpyData, playerScores, numTrain):
+    temp = list(zip(numpyData, playerScores))
+    random.Random(int(round(time.time())) % 10000).shuffle(temp)
+    nData, pScores = zip(*temp)
+    return nData[:numTrain], pScores[:numTrain], nData[numTrain:], pScores[numTrain:]
 
 def getParsedNormalizedData(fileName):
     fields, players, data = parseData(fileName)
