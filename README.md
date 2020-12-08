@@ -1,4 +1,6 @@
-# Readme
+## Readme
+
+Link to google slides: https://docs.google.com/presentation/d/1AfQApEFH-4kBMXcNnKB_PQRqr7g9YqUCoQQChAEq03Q/edit?usp=sharing
 Link to website: https://elitedatascience.com/machine-learning-projects-for-beginners
 
 # Batter stat sheets abreviation meanings:
