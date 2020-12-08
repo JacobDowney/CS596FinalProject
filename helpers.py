@@ -10,9 +10,9 @@ def splitData(numpyData, playerScores, numTrain):
     return nData[:numTrain], pScores[:numTrain], nData[numTrain:], pScores[numTrain:]
 
 def getParsedNormalizedData(fileName):
-    fields, players, data = parseData(fileName)
+    fields, players, data, realData = parseData(fileName)
     playerScores = scorePlayers(data)
-    normalizedData = normalizeData(data)
+    normalizedData = normalizeData(realData)
     numpyData = convertToNumpy(normalizedData)
     return fields, players, numpyData, playerScores
 
@@ -30,17 +30,18 @@ def parseData(fileName):
             fields = []
             players = {}
             data = []
+            realData = []
             i = 0
             for row in reader:
-                if i == 0:
-                    fields = row[3:]
-                else:
+                if i != 0:
                     players[row[0]] = i
                     data.append([float(i) for i in row[3:]])
+                    tData = [row[4], row[5], row[19], row[20], row[21]]
+                    realData.append([float(i) for i in tData])
                 i += 1
-            return fields, players, data
+            return ['G', 'AB', 'AVG', 'OBP', 'SLG'], players, data, realData
     else:
-        return [], {}
+        return [], {}, [], []
 
 def scorePlayers(data):
     scores = []
