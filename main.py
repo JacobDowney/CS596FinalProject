@@ -1,15 +1,18 @@
 # import statements
-from helpers import parseData, normalizeData
+from helpers import parseData, normalizeData, convertToNumpy
 
 data2018 = "mlb-player-stats-Batters-2018.csv"
 data2019 = "mlb-player-stats-Batters-2019.csv"
 data2020 = "mlb-player-stats-Batters-2020.csv"
 
 def main():
-    csvFileName = data2020
+    csvFileName = data2018
 
     fields, players = parseData(csvFileName)
-    data = normalizeData(players)
+    normalizedData = normalizeData(players)
+    playerNames, numpyData = convertToNumpy(normalizedData)
+    print(playerNames[0])
+    print(numpyData[0])
 
     # MODEL # 1 JACOB ->
     # Jacobs models functions

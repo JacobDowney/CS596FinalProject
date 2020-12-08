@@ -46,3 +46,14 @@ def normalizeData(players):
             newValues.append((values[i] - maxmins[i][0]) / (maxmins[i][1] - maxmins[i][0]))
         playersNormalized[playerName] = newValues
     return playersNormalized
+
+# Takes in normalized data with (playerName -> data) and returns playerNamesList
+# and 2d numpy array of the data
+def convertToNumpy(data):
+    import numpy as np
+    playerNames = []
+    playerData = []
+    for playerName in data.keys():
+        playerNames.append(playerName)
+        playerData.append(data[playerName])
+    return playerNames, np.array(playerData)
