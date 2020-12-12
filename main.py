@@ -1,6 +1,7 @@
 # import statements
-from helpers import getParsedNormalizedData,splitData
-#import model1
+from helpers import getParsedNormalizedData, splitData
+import model1
+import numpy as np
 
 data2018 = "mlb-player-stats-Batters-2018.csv"
 data2019 = "mlb-player-stats-Batters-2019.csv"
@@ -15,11 +16,16 @@ def main():
     x_train, y_train, x_test, y_test = splitData(numpyData, playerScores, numTrain)
 
     print(fields)
-    #print(list(playerNames.keys())[0])
-    print(x_train[0])
-    print(y_train[0])
+    print(playerNames[0]) # Not that first name doesn't align with trian data
 
-    #model1.execute(x_train, y_train, x_test, y_test)
+    print(x_train[0])
+    print(y_train[:50])
+    print(len(x_test))
+    print(len(y_test))
+
+    #trainAndTest(x_train, y_train, x_test, y_test)
+
+    model1.execute(x_train, y_train, x_test, y_test)
 
     # MODEL # 1 JACOB ->
     # Jacobs models functions
