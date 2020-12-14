@@ -19,9 +19,10 @@ def main():
     print(playerNames[0]) # Not that first name doesn't align with trian data
 
     print(x_train[0])
-    print(y_train[:50])
+    print(y_train[:5])
     print(len(x_test))
     print(len(y_test))
+    print("Starting model executions\n")
 
     #trainAndTest(x_train, y_train, x_test, y_test)
 
