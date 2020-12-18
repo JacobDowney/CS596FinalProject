@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d11be2b-9a01-4c97-970e-a51ad1ae6a44" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/avg.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/helpers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model3.py" beforeDir="false" afterPath="$PROJECT_DIR$/model3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model1.py" beforeDir="false" afterPath="$PROJECT_DIR$/model1.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +60,7 @@
       <updated>1607405465359</updated>
       <workItem from="1607405467233" duration="3578000" />
       <workItem from="1607904139319" duration="5663000" />
-      <workItem from="1608271043212" duration="4264000" />
+      <workItem from="1608271043212" duration="4840000" />
     </task>
     <servers />
   </component>
