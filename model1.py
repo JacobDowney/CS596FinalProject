@@ -31,6 +31,49 @@ def sortResults():
         print(a)
 
 
+def tableHelp(x_train, y_train, x_test, y_test):
+    # Hidden features
+    hidden_neural_units = [15, 15]
+    activation_functions = ['relu', 'relu']
+
+    # Parameters
+    learning_rate = 0.01
+    training_iterations = 50
+
+    # Network Parameters
+    n_input = 5
+    n_output = 1
+
+    of = 'sigmoid'
+
+    #ofs = ['relu', 'sigmoid', 'exponential', 'softmax']
+    hs = [[10, 10, 10], [5, 10, 5], [5, 5, 5], [10, 10], [10, 5], [5, 5], [10], [5]]
+    mean_absolute_errors = []
+    mean_square_errors = []
+    for h in hs:
+        absL = []
+        sqrL = []
+        for iter in range(0, 5):
+            predictions = trainAndPredict(x_train, y_train, x_test, y_test,
+                                        h, activation_functions,
+                                        learning_rate, training_iterations, n_input,
+                                        n_output, of)
+            diffs = [abs(y_test[i] - predictions[i]) for i in range(0, len(predictions))]
+            average = sum(diffs) / len(diffs)
+            absL.append(average)
+            sqrL.append(average * average)
+        mean_absolute_errors.append([sum(absL) / len(absL), h])
+        mean_square_errors.append([sum(sqrL) / len(sqrL), h])
+
+    absSort = sorted(mean_absolute_errors, key=lambda x: x[0])
+    sqrSort = sorted(mean_square_errors, key=lambda x: x[0])
+
+    for a in absSort:
+        print(a[0], a[1])
+    for s in sqrSort:
+        print(s[0], s[1])
+
+
 def execute(x_train, y_train, x_test, y_test):
     # Hidden features
     hidden_neural_units = [15, 15]
@@ -43,41 +86,43 @@ def execute(x_train, y_train, x_test, y_test):
     # Network Parameters
     n_input = 5
     n_output = 1
-    output_function = 'exponential'
+    output_function = 'sigmoid'
+
+    predictions = trainAndPredict(x_train, y_train, x_test, y_test,
+                                    h, activation_functions,
+                                    learning_rate, training_iterations, n_input,
+                                    n_output, output_function)
+    diffs = [abs(y_test[i] - predictions[i]) for i in range(0, len(predictions))]
+    average = sum(diffs) / len(diffs)
+    print(average)
+
+def trainAndPredict(xTr, yTr, xTst, yTst, hdn, act, learn, epochs, inNum, outNum, outFunc):
 
     # Tensorflow keras Sequential model
     model = tf.keras.Sequential()
 
     # 2D image we flatten to 1D image to give it to 1 row of neurons
-    model.add(tf.keras.Input(shape=(n_input,)))
+    model.add(tf.keras.Input(shape=(inNum,)))
     # For each amount of neurons in each layer, add it to the model
-    for units, act_func in zip(hidden_neural_units, activation_functions):
+    for units, act_func in zip(hdn, act):
         # Dense makes neuron in previous row is connected to each neuron this row
         model.add(tf.keras.layers.Dense(units, activation=act_func))
     # 10 output layers from 0-9
     # activation is softmax to find max of each of those neurons and thats the num
     # Output function = softmax
-    model.add(tf.keras.layers.Dense(n_output, activation=output_function))
+    model.add(tf.keras.layers.Dense(outNum, activation=outFunc))
 
-    model.compile(optimizer = tf.optimizers.Adam(learning_rate=learning_rate),
+    model.compile(optimizer = tf.optimizers.Adam(learning_rate=learn),
                     loss = tf.keras.losses.MeanAbsoluteError(),
                     metrics = ['accuracy'])
 
     # Train the Model
-    model.fit(x_train, y_train, epochs=training_iterations)
+    model.fit(xTr, yTr, epochs=epochs)
 
-    # Test the Model
-    raw_predictions = model.predict(x=x_test)
-    predictions = []
-    avg = 0.0
-    for i in range(0, len(raw_predictions)):
-        predictions.append(raw_predictions[i][0])
-        avg += abs(raw_predictions[i][0] - y_test[i])
-    avg = avg / int(len(y_test))
-    print(avg)
+    # Get Predictions for Models
+    raw_predictions = model.predict(x=xTst)
+    return [float(x[0]) for x in raw_predictions]
 
-    acc = accuracies(predictions, y_test)
-    print(acc)
 
     # conf_matrix, accuracy, recall_array, precision_array = func_confusion_matrix(predictions, y_test)
     # print("RESULTS")

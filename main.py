@@ -29,7 +29,7 @@ def main():
     # MODEL # 1 JACOB ->
     # Jacobs models functions
     # Printing models outputs
-    # model1.execute(x_train,y_train,x_test,y_test)
+    model1.tableHelp(x_train,y_train,x_test,y_test)
 
     # MODEL # 2 WILL ->
     # Wills models functions
