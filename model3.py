@@ -27,13 +27,7 @@ def execute(x_train, y_train, x_test, y_test, fields):
         sum_absolute_error = 0
         curr_iters = 0
         while(curr_iters < num_iterations):
-
-            if (k == 'linear'):
-                y_pred = clf.fit(x_train, y_train).predict(x_test)
-            if (k == 'poly'):
-                y_pred = clf.fit(x_train, y_train).predict(x_test)
-            if (k == 'rbf'):
-                y_pred = clf.fit(x_train, y_train).predict(x_test)
+            y_pred = clf.fit(x_train, y_train).predict(x_test)
             confidence = clf.score(x_test, y_test)
             # y_pred = clf.predict(x_test)
     #        encodedy_predict = lab_enc.fit_transform(y_pred)
