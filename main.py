@@ -1,6 +1,7 @@
 # import statements
 from helpers import getParsedNormalizedData, splitData
 import model1
+import model3
 import numpy as np
 
 data2018 = "mlb-player-stats-Batters-2018.csv"
@@ -25,7 +26,7 @@ def main():
 
     #trainAndTest(x_train, y_train, x_test, y_test)
 
-    model1.execute(x_train, y_train, x_test, y_test)
+    #model1.execute(x_train, y_train, x_test, y_test)
 
     # MODEL # 1 JACOB ->
     # Jacobs models functions
@@ -38,6 +39,7 @@ def main():
     # MODEL # 3 MATT ->
     # Matts models functions
     # Printing models outputs
+    model3.execute(x_train, y_train, x_test, y_test)
 
 
     print("done")
