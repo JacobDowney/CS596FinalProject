@@ -16,9 +16,17 @@ def execute(x_train, y_train, x_test, y_test):
     encodedtrain = lab_enc.fit_transform(y_train)
     encodedtest = lab_enc.fit_transform(y_test)
 
-
-    for k in ['linear', 'poly', 'rbf', 'sigmoid']:
+    kernel_types = ['linear', 'poly', 'rbf']#, 'sigmoid']
+    svm_c_error = []
+    for k in kernel_types:
         clf = svm.SVR(kernel=k)
+        if (k == 'linear'):
+            y_linear = clf.fit(x_train, y_train)
+        if (k == 'poly'):
+            y_poly = clf.fit(x_train, y_train)
+        if (k == 'rbf'):
+            y_rbf = clf.fit(x_train, y_train)
+
         clf.fit(x_train, y_train)
         confidence = clf.score(x_test, y_test)
         y_pred = clf.predict(x_test)
@@ -29,6 +37,41 @@ def execute(x_train, y_train, x_test, y_test):
         r2 = metrics.r2_score(y_test, y_pred)
         explained_variance = metrics.explained_variance_score(y_test, y_pred)
 
+        svm_c_error.append(1-confidence)
+
+        # c_range = 10, 50, 100, 500, 1000  #
+        # svm_c_error = []
+        # for c_value in c_range:
+        #     model = svm.SVR(kernel= k, C=c_value)
+        #     model.fit(X=x_train, y=encodedtrain)
+        #     mean_absolute_errorC = metrics.mean_absolute_error(y_test, y_pred)
+        #     svm_c_error.append(mean_absolute_errorC)
+        # print(svm_c_error)
+        # plt.plot(c_range, svm_c_error)
+        # plt.title(k)
+        # plt.xlabel('c values')
+        # plt.ylabel('error')
+        # plt.xticks(c_range)
+        # plt.show()
+
+        # kernel_types = ['linear', 'poly', 'rbf']
+        # svm_kernel_error = []
+        # for kernel_value in kernel_types:
+        #     # your own codes
+        #     model2 = svm.SVC(kernel=kernel_value, C=6)
+        #     model2.fit(X=x_train, y=y_train)
+        #     error = 1. - model2.score(x_validation, y_validation)
+        #     svm_kernel_error.append(error)
+
+
+
+
+
+
+            # error = 1. - model.score(x_test, encodedtest)
+            # svm_c_error.append(error)
+
+
         print(k, round(confidence, 4))
         print("explained variance : ", round(explained_variance, 4))
         print("mean absolute error: ", round(mean_absolute_error, 4))
@@ -36,6 +79,43 @@ def execute(x_train, y_train, x_test, y_test):
         print("r2                 : ", round(r2, 4))
         print()
 
+    plt.plot(kernel_types, svm_c_error)
+    plt.title('SVM by Kernels')
+    plt.xlabel('Kernel')
+    plt.ylabel('error')
+    plt.xticks(kernel_types)
+    plt.show()
+
+    lw = 2
+    x_axis = []
+    r = 0
+    c = 0
+    while (c< len(x_test[0])):
+        while (r < len(x_test)):
+            x_axis.append(x_test[r][c])
+            r += 1
+        y_list = list(y_test)
+        plt.scatter(x_axis, y_list, color='darkorange', label='data')
+        c += 1
+        x_axis = []
+
+
+    # for c in (x_test[0]):
+    #     for r in (x_test):
+    #         x_axis.append(x_test[r][c])
+    # plt.scatter(x_axis, y_test, color='darkorange', label='data')
+
+
+   # plt.scatter(x_test, y_test, color='darkorange', label='data')
+    plt.hold('on')
+    plt.plot(x_test, y_rbf, color='navy', lw=lw, label='RBF model')
+    plt.plot(x_test, y_linear, color='c', lw=lw, label='Linear model')
+    plt.plot(x_test, y_poly, color='cornflowerblue', lw=lw, label='Polynomial model')
+    plt.xlabel('data')
+    plt.ylabel('target')
+    plt.title('Support Vector Regression')
+    plt.legend()
+    plt.show()
 
 
 

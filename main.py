@@ -25,14 +25,14 @@ def main():
     print(y_train[:5])
     print(len(x_test))
     print(len(y_test))
-<<<<<<< HEAD
+#<<<<<<< HEAD
 
     #trainAndTest(x_train, y_train, x_test, y_test)
 
     #model1.execute(x_train, y_train, x_test, y_test)
-=======
+#=======
     print("Starting model executions\n")
->>>>>>> 68919fbe193adcb325aeaff962858c7f88fb961e
+#>>>>>>> 68919fbe193adcb325aeaff962858c7f88fb961e
 
     # MODEL # 1 JACOB ->
     # Jacobs models functions
