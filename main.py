@@ -2,10 +2,12 @@
 from helpers import getParsedNormalizedData, splitData
 import model1
 import numpy as np
+import pickle
 
 data2018 = "mlb-player-stats-Batters-2018.csv"
 data2019 = "mlb-player-stats-Batters-2019.csv"
 data2020 = "mlb-player-stats-Batters-2020.csv"
+
 
 def main():
     csvFileName = data2018
@@ -24,13 +26,10 @@ def main():
     print(len(y_test))
     print("Starting model executions\n")
 
-    #trainAndTest(x_train, y_train, x_test, y_test)
-
-    model1.execute(x_train, y_train, x_test, y_test)
-
     # MODEL # 1 JACOB ->
     # Jacobs models functions
     # Printing models outputs
+    # model1.execute(x_train,y_train,x_test,y_test)
 
     # MODEL # 2 WILL ->
     # Wills models functions

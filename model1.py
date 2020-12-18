@@ -2,59 +2,48 @@ import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
+from helpers import accuracies
 
-def executeT(x_train, y_train, x_test, y_test):
-    import tensorflow.compat.v1 as tf
-    tf.disable_v2_behavior()
-    # Hyperparameters
-    epochs = 10000
-    learning_rate = 0.01
-    n_input = 5
-    n_hidden = 10
-    n_output = 1
-    X = tf.placeholder(tf.float32)
-    Y = tf.placeholder(tf.float32)
-    # Weights
-    W1 = tf.Variable(tf.random_uniform([n_input, n_hidden], -1.0, 1.0))
-    W2 = tf.Variable(tf.random_uniform([n_hidden, n_output], -1.0, 1.0))
-    # Bias
-    b1 = tf.Variable(tf.zeros([n_hidden]), name="Bias1")
-    b2 = tf.Variable(tf.zeros([n_output]), name="Bias2")
-    # Activation functions
-    L2 = tf.sigmoid(tf.matmul(X, W1) + b1)
-    hy = tf.sigmoid(tf.matmul(L2, W2) + b2)
-    # Optimizer
-    #cost = tf.reduce_mean(-Y*tf.log(hy) - (1-Y)*tf.log(1-hy))
-    cost = tf.reduce_mean((Y - hy) * (Y - hy))
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
-    # Initializer
-    init = tf.initialize_all_variables()
-    with tf.Session() as session:
-        session.run(init)
-        for step in range(0, epochs):
-            session.run(optimizer, feed_dict={X: x_train, Y: y_train})
-            if step % 1000 == 0:
-                print (session.run(cost, feed_dict={X: x_train, Y: y_train}))
-        answer = tf.equal(tf.floor((hy * 10) + 0.5), tf.floor((Y * 10) + 0.5))
-        accuracy = tf.reduce_mean(tf.cast(answer, "float"))
-        # Running session
-        print(session.run([hy], feed_dict={X: x_train, Y: y_train}))
-        print("Accuracy:", accuracy.eval({X: x_train, Y: y_train}))
+def testingParameters():
+    # 15, 10, 5 combinations
+    h = [[15, 15], [15, 10], [15, 5], [10, 10], [10, 5], [5, 5]]
+    # relu, sigmoid, softmax, tanh, exponential
+    a = ['relu', 'sigmoid', 'exponential']
+
+    averages = []
+    for hidden in h:
+        for act1 in a:
+            print("\n\n\n\n\nSTARTING: ", hidden, act1)
+            for act2 in a:
+                for act3 in a:
+                    avg = 0.0
+                    for i in range(0, 5):
+                        avg += execute(x_train,y_train,x_test,y_test,hidden,[act1,act2],act3)
+                    avg = avg / 5.0
+                    averages.append([avg, hidden, act1, act2, act3])
+    pickle.dump(averages, open('avg.pkl', 'wb'))
+
+
+def sortResults():
+    avg = pickle.load( open('avg.pkl', 'rb') )
+    sort = sorted(avg, key=lambda x: x[0])
+    for a in sort:
+        print(a)
 
 
 def execute(x_train, y_train, x_test, y_test):
     # Hidden features
-    hidden_neural_units = [10, 5]
-    activation_functions = ['relu', 'sigmoid']
+    hidden_neural_units = [15, 15]
+    activation_functions = ['relu', 'relu']
 
     # Parameters
     learning_rate = 0.01
-    training_iterations = 100
+    training_iterations = 50
 
     # Network Parameters
     n_input = 5
     n_output = 1
-    output_function = tf.nn.sigmoid
+    output_function = 'exponential'
 
     # Tensorflow keras Sequential model
     model = tf.keras.Sequential()
@@ -78,16 +67,18 @@ def execute(x_train, y_train, x_test, y_test):
     model.fit(x_train, y_train, epochs=training_iterations)
 
     # Test the Model
-    print("TESTING")
-    #print(model.evaluate(x_test, y_test))
     raw_predictions = model.predict(x=x_test)
-    # predictions = []
+    predictions = []
     avg = 0.0
-    print(raw_predictions)
     for i in range(0, len(raw_predictions)):
-        avg += abs(raw_predictions[0] - y_test[i])
-    print("AVERAGE MISS: ", (avg / int(len(y_test))))
-    #
+        predictions.append(raw_predictions[i][0])
+        avg += abs(raw_predictions[i][0] - y_test[i])
+    avg = avg / int(len(y_test))
+    print(avg)
+
+    acc = accuracies(predictions, y_test)
+    print(acc)
+
     # conf_matrix, accuracy, recall_array, precision_array = func_confusion_matrix(predictions, y_test)
     # print("RESULTS")
     # print("Confusion matrix\n", conf_matrix)
