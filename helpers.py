@@ -62,6 +62,18 @@ def normalizeData(data):
         dataNormalized.append(normalized)
     return dataNormalized
 
+"""
+Model scoring functions
+"""
+
+# Used for calculating confusion matrix and precision and accuracy for model
+def scorePredictions(predictions, answers, percentError):
+    assert len(predictions) == len(answers), "Num predictions must equal num answers"
+
+    from sklean.metrics import confusion_matrix
+    conf_matrix = confusion_matrix(answers, predictions)
+    print(conf_matrix)
+
 ##### Problem 3: Comparative Studies
 # Please write a function to calculate the confusion matrix for the prediction
 # results of a classifier. The function should take the form:

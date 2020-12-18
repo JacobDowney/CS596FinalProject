@@ -1,6 +1,7 @@
 # import statements
-from helpers import getParsedNormalizedData, splitData
+from helpers import getParsedNormalizedData, splitData, scorePredictions
 import model1
+import model3
 import numpy as np
 import pickle
 
@@ -12,6 +13,12 @@ data2020 = "mlb-player-stats-Batters-2020.csv"
 def main():
     csvFileName = data2018
     percentTraining = 0.8
+
+    # Percent error that is acceptable for a correct prediciton. For example,
+    # If the correct answer is 0.55, with a prediction error of 0.5 a prediction
+    # from 0.5 to 0.6 would be correct, else incorrect.
+    # Correct_Answer = abs(pred_y - y_test) < predictionError
+    predictionError = 0.05
 
     fields, playerNames, numpyData, playerScores = getParsedNormalizedData(csvFileName)
     numTrain = int(percentTraining * len(numpyData))
@@ -29,7 +36,8 @@ def main():
     # MODEL # 1 JACOB ->
     # Jacobs models functions
     # Printing models outputs
-    model1.tableHelp(x_train,y_train,x_test,y_test)
+    predModel1 = model1.execute(x_train, y_train, x_test, y_test)
+    scorePredictions(predModel1, y_test, predictionError)
 
     # MODEL # 2 WILL ->
     # Wills models functions
@@ -38,6 +46,7 @@ def main():
     # MODEL # 3 MATT ->
     # Matts models functions
     # Printing models outputs
+    #model3.execute(x_train, y_train, x_test, y_test)
 
 
     print("done")
