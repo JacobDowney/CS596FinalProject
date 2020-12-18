@@ -46,7 +46,7 @@ def main():
     # MODEL # 3 MATT ->
     # Matts models functions
     # Printing models outputs
-    model3.execute(x_train, y_train, x_test, y_test)
+    model3.execute(x_train, y_train, x_test, y_test, fields)
 
 
     print("done")
