@@ -10,14 +10,18 @@ import sklearn.metrics as metrics
 from sklearn import utils
 
 
-def execute(x_train, y_train, x_test, y_test):
+def execute(x_train, y_train, x_test, y_test, fields):
+    final_x = x_test[:]
     lab_enc = preprocessing.LabelEncoder()
-
-    encodedtrain = lab_enc.fit_transform(y_train)
-    encodedtest = lab_enc.fit_transform(y_test)
-
+    #
+    # encodedtrain = lab_enc.fit_transform(y_train)
+    # encodedtest = lab_enc.fit_transform(y_test)
+    num_iterations = 5
+    curr_iters = 0
     kernel_types = ['linear', 'poly', 'rbf']#, 'sigmoid']
     svm_c_error = []
+    sum_absolute_error = 0
+    avg_err =0
     for k in kernel_types:
         clf = svm.SVR(kernel=k)
         if (k == 'linear'):
