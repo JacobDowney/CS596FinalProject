@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import sklearn.svm as svm
 
+### AUTHOR: Matthew Orgon
+
 # Execute function for svm model.
 # Note: This took a lot more code to make but after editing it was removed for
 # this clean final version

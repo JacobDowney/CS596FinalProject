@@ -3,6 +3,8 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 
+### Author: Jacob Downey
+
 # Main function called form main.py that should be used to train, test, and then
 # return the predictions to main to get the confusion matrix calculated later
 def execute(x_train, y_train, x_test, y_test):

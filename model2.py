@@ -6,6 +6,8 @@ from keras import Model
 from keras.layers import Layer
 from keras import backend as K
 
+### AUTHOR: Will Patterson
+
 #building a custom RBF neural network with backend Tensorflow
 class RBFLayer(Layer):
    def __init__(self, units, gamma, **kwargs):
@@ -31,13 +33,15 @@ class RBFLayer(Layer):
 
 # Executing a radial basic neural network
 def execute(x_train, y_train, x_test, y_test):
+    training_iterations = 25
     # implementation of RBF layer. gamma is changed in second parameter of "RBFLayer()"
     model = Sequential()
     model.add(Dense(5, activation='relu'))
-    model.add(RBFLayer(10, 0.5))
+    model.add(RBFLayer(20, 0.5))
     model.add(Dense(1, activation='sigmoid', name='output'))
 
-    model.compile(optimizer='rmsprop',loss='MSE')
+    model.compile(optimizer='rmsprop', loss='MSE')
+    model.fit(x_train, y_train, epochs=training_iterations)
 
     y_pred = model.predict(x=x_test)
     return [float(y[0]) for y in y_pred]

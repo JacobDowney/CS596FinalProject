@@ -5,6 +5,8 @@ import math
 import time
 import numpy as np
 
+### AUTHOR: Jacob Downey
+
 # Randomly split data into training and testing
 def splitData(x, y, numTrain):
     rng_state = np.random.get_state()
