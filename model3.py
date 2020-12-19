@@ -22,74 +22,108 @@ def execute(x_train, y_train, x_test, y_test, fields):
     svm_c_error = []
     sum_absolute_error = 0
     avg_err =0
-    for k in kernel_types:
-        clf = svm.SVR(kernel=k)
-        sum_absolute_error = 0
-        curr_iters = 0
-        while(curr_iters < num_iterations):
+    #bestModelParameterTest
+    clf = svm.SVR(kernel='linear')#kernel='linear', tol=.0005, epsilon=.0005)
+    y_pred = clf.fit(x_train, y_train).predict(x_test)
+    mean_absolute_error = metrics.mean_absolute_error(y_test, y_pred)
+    print("mean absolute error:", mean_absolute_error)
+    plt.scatter(y_test, y_pred, color='darkorange', label='data')
+    x=[0,1]
+    y = x
+    plt.plot(x, y)
+    plt.xlabel('data')
+    plt.ylabel('target')
+    plt.title('Support Vector Regression')
+    plt.legend()
+    plt.show()
+    # print(, ':', mean_absolute_error)
+    # mean_errors.append(mean_absolute_error)
 
-            if (k == 'linear'):
-                y_pred = clf.fit(x_train, y_train).predict(x_test)
-            if (k == 'poly'):
-                y_pred = clf.fit(x_train, y_train).predict(x_test)
-            if (k == 'rbf'):
-                y_pred = clf.fit(x_train, y_train).predict(x_test)
-            confidence = clf.score(x_test, y_test)
-            # y_pred = clf.predict(x_test)
-    #        encodedy_predict = lab_enc.fit_transform(y_pred)
-    #        print(y_pred)
-            mean_absolute_error = metrics.mean_absolute_error(y_test, y_pred)
-            sum_absolute_error += mean_absolute_error
+    # test_epsilon = [.00001,.0001,.0005,.001,.005,.01]
+    # test_tolerance = [.0000001, .000001,.00005,.0001,.0005,.001,.005]
+    # mean_errors = []
+    # for t in test_tolerance:
+    #     clf = svm.SVR(kernel='linear', tol=t)
+    #     y_pred = clf.fit(x_train, y_train).predict(x_test)
+    #     mean_absolute_error = metrics.mean_absolute_error(y_test, y_pred)
+    #     print(t,':', mean_absolute_error)
+    #     mean_errors.append(mean_absolute_error)
+    #
+    # plt.plot(test_tolerance, mean_errors)
+    # plt.title('SVM by epsilons')
+    # plt.xlabel('epsilon')
+    # plt.ylabel('error')
+    # plt.xticks(test_tolerance)
+    # plt.show()
 
-
-            mse = metrics.mean_squared_error(y_test, y_pred)
-            r2 = metrics.r2_score(y_test, y_pred)
-            explained_variance = metrics.explained_variance_score(y_test, y_pred)
-
-            svm_c_error.append(1-confidence)
-
-            # c_range = 10, 50, 100, 500, 1000  #
-            # svm_c_error = []
-            # for c_value in c_range:
-            #     model = svm.SVR(kernel= k, C=c_value)
-            #     model.fit(X=x_train, y=encodedtrain)
-            #     mean_absolute_errorC = metrics.mean_absolute_error(y_test, y_pred)
-            #     svm_c_error.append(mean_absolute_errorC)
-            # print(svm_c_error)
-            # plt.plot(c_range, svm_c_error)
-            # plt.title(k)
-            # plt.xlabel('c values')
-            # plt.ylabel('error')
-            # plt.xticks(c_range)
-            # plt.show()
-
-            # kernel_types = ['linear', 'poly', 'rbf']
-            # svm_kernel_error = []
-            # for kernel_value in kernel_types:
-            #     # your own codes
-            #     model2 = svm.SVC(kernel=kernel_value, C=6)
-            #     model2.fit(X=x_train, y=y_train)
-            #     error = 1. - model2.score(x_validation, y_validation)
-            #     svm_kernel_error.append(error)
-
-
-
-
-
-
-                # error = 1. - model.score(x_test, encodedtest)
-                # svm_c_error.append(error)
-
-            print(k, "mean absolute error: ", mean_absolute_error)
-            # print(k, round(confidence, 4))
-            # print("explained variance : ", round(explained_variance, 4))
-            # print("mean absolute error: ", round(mean_absolute_error, 4))
-            # print("mean squre error   : ", round(mse, 4))
-            # print("r2                 : ", round(r2, 4))
-            print()
-            curr_iters += 1
-        avg_err = sum_absolute_error / num_iterations
-        print("avg error :" , avg_err)
+    # for k in kernel_types:
+    #     clf = svm.SVR(kernel=k)
+    #     sum_absolute_error = 0
+    #     curr_iters = 0
+    #     while(curr_iters < num_iterations):
+    #
+    #         if (k == 'linear'):
+    #             y_pred = clf.fit(x_train, y_train).predict(x_test)
+    #         if (k == 'poly'):
+    #             y_pred = clf.fit(x_train, y_train).predict(x_test)
+    #         if (k == 'rbf'):
+    #             y_pred = clf.fit(x_train, y_train).predict(x_test)
+    #         confidence = clf.score(x_test, y_test)
+    #         # y_pred = clf.predict(x_test)
+    # #        encodedy_predict = lab_enc.fit_transform(y_pred)
+    # #        print(y_pred)
+    #         mean_absolute_error = metrics.mean_absolute_error(y_test, y_pred)
+    #         sum_absolute_error += mean_absolute_error
+    #
+    #
+    #         mse = metrics.mean_squared_error(y_test, y_pred)
+    #         r2 = metrics.r2_score(y_test, y_pred)
+    #         explained_variance = metrics.explained_variance_score(y_test, y_pred)
+    #
+    #         svm_c_error.append(1-confidence)
+    #
+    #         # c_range = 10, 50, 100, 500, 1000  #
+    #         # svm_c_error = []
+    #         # for c_value in c_range:
+    #         #     model = svm.SVR(kernel= k, C=c_value)
+    #         #     model.fit(X=x_train, y=encodedtrain)
+    #         #     mean_absolute_errorC = metrics.mean_absolute_error(y_test, y_pred)
+    #         #     svm_c_error.append(mean_absolute_errorC)
+    #         # print(svm_c_error)
+    #         # plt.plot(c_range, svm_c_error)
+    #         # plt.title(k)
+    #         # plt.xlabel('c values')
+    #         # plt.ylabel('error')
+    #         # plt.xticks(c_range)
+    #         # plt.show()
+    #
+    #         # kernel_types = ['linear', 'poly', 'rbf']
+    #         # svm_kernel_error = []
+    #         # for kernel_value in kernel_types:
+    #         #     # your own codes
+    #         #     model2 = svm.SVC(kernel=kernel_value, C=6)
+    #         #     model2.fit(X=x_train, y=y_train)
+    #         #     error = 1. - model2.score(x_validation, y_validation)
+    #         #     svm_kernel_error.append(error)
+    #
+    #
+    #
+    #
+    #
+    #
+    #             # error = 1. - model.score(x_test, encodedtest)
+    #             # svm_c_error.append(error)
+    #
+    #         print(k, "mean absolute error: ", mean_absolute_error)
+    #         # print(k, round(confidence, 4))
+    #         # print("explained variance : ", round(explained_variance, 4))
+    #         # print("mean absolute error: ", round(mean_absolute_error, 4))
+    #         # print("mean squre error   : ", round(mse, 4))
+    #         # print("r2                 : ", round(r2, 4))
+    #         print()
+    #         curr_iters += 1
+    #     avg_err = sum_absolute_error / num_iterations
+    #     print("avg error :" , avg_err)
 
 
 
