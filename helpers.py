@@ -68,7 +68,7 @@ Model scoring functions
 """
 
 # Used for calculating confusion matrix and precision and accuracy for model
-def scorePredictions(predictions, answers, percentError):
+def scorePredictions(predictions, answers, percentError, showGraph=0):
     assert len(predictions) == len(answers), "Num predictions must equal num answers"
     import matplotlib.pyplot as plt
 
@@ -110,10 +110,11 @@ def scorePredictions(predictions, answers, percentError):
         xplot.append('(' + str(key) + ',' + str(round(key+gaps, 3)) + ')')
         yplot.append(value)
 
-    plt.barh(xplot, yplot, align='center') #, alpha=0.001)
-    plt.xticks(np.arange(0, max(yplot)+1, math.ceil(len(yplot) / 10)))
-    plt.yticks(np.arange(0, len(yplot), 2))
-    plt.xlabel('Number of Predictions in Range')
-    plt.ylabel('Range of Mean Abolsute Error')
-    plt.title('Range of Accuracy of Predictions by Model')
-    plt.show()
+    if showGraph:
+        plt.barh(xplot, yplot, align='center') #, alpha=0.001)
+        plt.xticks(np.arange(0, max(yplot)+1, math.ceil(len(yplot) / 10)))
+        plt.yticks(np.arange(0, len(yplot), 2))
+        plt.xlabel('Number of Predictions in Range')
+        plt.ylabel('Range of Mean Abolsute Error')
+        plt.title('Range of Accuracy of Predictions by Model')
+        plt.show()
