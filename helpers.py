@@ -85,9 +85,9 @@ def scorePredictions(predictions, answers, percentError):
     median = diffs[int(len(diffs) / 2)]
     if len(diffs) % 2 != 0:
         median = round((diffs[int(len(diffs)/2)] + diffs[int((len(diffs)/2))+1]) / 2.0, 3)
-    print('Median Mean Absolute Error:', median)
+    print('Median Absolute Error:', median)
     mean = sum(diffs) / len(diffs)
-    print('Average Mean Absolute Error:', sum(diffs) / len(diffs))
+    print('Mean Absolute Error:', sum(diffs) / len(diffs))
     std_dev = sum([(x*10000) * (x*10000) for x in diffs])
     std_dev = math.sqrt((1.0 / len(diffs)) * std_dev) / 10000.0
     print('Standard Deviation:', std_dev)
