@@ -23,10 +23,10 @@ def execute(x_train, y_train, x_test, y_test, fields):
     sum_absolute_error = 0
     avg_err =0
     #bestModelParameterTest
-    clf = svm.SVR(kernel='linear')#kernel='linear', tol=.0005, epsilon=.0005)
+    clf = svm.SVR(kernel='linear', tol=.0005, epsilon=.0005)
     y_pred = clf.fit(x_train, y_train).predict(x_test)
     mean_absolute_error = metrics.mean_absolute_error(y_test, y_pred)
-    print("mean absolute error:", mean_absolute_error)
+    #print("mean absolute error:", mean_absolute_error)
     plt.scatter(y_test, y_pred, color='darkorange', label='data')
     x=[0,1]
     y = x
@@ -36,6 +36,8 @@ def execute(x_train, y_train, x_test, y_test, fields):
     plt.title('Support Vector Regression')
     plt.legend()
     plt.show()
+
+    return y_pred
     # print(, ':', mean_absolute_error)
     # mean_errors.append(mean_absolute_error)
 

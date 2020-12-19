@@ -46,16 +46,15 @@ def main():
     # MODEL # 3 MATT ->
     # Matts models functions
     # Printing models outputs
-<<<<<<< HEAD
-# <<<<<<< HEAD
+
     #model3.execute(x_train, y_train, x_test, y_test)
-# =======
-    model3.execute(x_train, y_train, x_test, y_test, fields)
-# >>>>>>> 7342c2e3d8ba381720af65a549420b01ca1c2386
-=======
+
+    predModel3 = model3.execute(x_train, y_train, x_test, y_test, fields)
+    scorePredictions(predModel3, y_test, predictionError)
+
     # model3.execute(x_train, y_train, x_test, y_test, fields)
 
->>>>>>> 97dc389cb5d4ffc051709f8b3a1a30116b472e74
+
 
 
     print("done")

@@ -111,7 +111,7 @@ def scorePredictions(predictions, answers, percentError):
         yplot.append(value)
 
     plt.barh(xplot, yplot, align='center') #, alpha=0.001)
-    plt.xticks(np.arange(0, max(yplot)+1, math.ceil(len(yplot) / 25)))
+    plt.xticks(np.arange(0, max(yplot)+1, math.ceil(len(yplot) / 10)))
     plt.yticks(np.arange(0, len(yplot), 2))
     plt.xlabel('Number of Predictions in Range')
     plt.ylabel('Range of Mean Abolsute Error')
