@@ -61,6 +61,7 @@ These are not to be used to train or test the optimal model we are using, just
 testing helper functions.
 """
 
+# Calculates almost every type of parameter combination and stores in pkl file
 def testingParameters():
     # 15, 10, 5 combinations
     h = [[15, 15], [15, 10], [15, 5], [10, 10], [10, 5], [5, 5]]
@@ -80,14 +81,14 @@ def testingParameters():
                     averages.append([avg, hidden, act1, act2, act3])
     pickle.dump(averages, open('avg.pkl', 'wb'))
 
-
+# USed to sort all results from pkl file,
 def sortResults():
     avg = pickle.load( open('avg.pkl', 'rb') )
     sort = sorted(avg, key=lambda x: x[0])
     for a in sort:
         print(a)
 
-
+# Meant to be used to test different parameters
 def tableHelp(x_train, y_train, x_test, y_test):
     # Hidden features
     hidden_neural_units = [10, 10]
@@ -117,26 +118,3 @@ def tableHelp(x_train, y_train, x_test, y_test):
         best_rates.append([sum(scores) / len(scores), l])
     for x in sorted(best_rates, key=lambda a: a[0]):
         print(x[0], x[1])
-
-    #ofs = ['relu', 'sigmoid', 'exponential', 'softmax']
-    # hs = [[10, 10, 10], [5, 10, 5], [5, 5, 5], [10, 10], [10, 5], [5, 5], [10], [5]]
-    # mean_absolute_errors = []
-    # mean_square_errors = []
-    # for h in hs:
-    #     absL = []
-    #     sqrL = []
-    #     for iter in range(0, 5):
-    #         predictions = trainAndPredict(x_train, y_train, x_test, y_test,
-    #                                     h, activation_functions,
-    #                                     learning_rate, training_iterations, n_input,
-    #                                     n_output, of)
-    #         diffs = [abs(y_test[i] - predictions[i]) for i in range(0, len(predictions))]
-    #         average = sum(diffs) / len(diffs)
-    #         absL.append(average)
-    #         sqrL.append(average * average)
-    #     mean_absolute_errors.append([sum(absL) / len(absL), h])
-    #     mean_square_errors.append([sum(sqrL) / len(sqrL), h])
-    # for a in sorted(mean_absolute_errors, key=lambda x: x[0]):
-    #     print(a[0], a[1])
-    # for s in sorted(mean_square_errors, key=lambda x: x[0]):
-    #     print(s[0], s[1])

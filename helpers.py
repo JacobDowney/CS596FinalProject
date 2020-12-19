@@ -5,6 +5,7 @@ import math
 import time
 import numpy as np
 
+# Randomly split data into training and testing
 def splitData(x, y, numTrain):
     rng_state = np.random.get_state()
     np.random.shuffle(x)
@@ -12,6 +13,7 @@ def splitData(x, y, numTrain):
     np.random.shuffle(y)
     return x[:numTrain], y[:numTrain], x[numTrain:], y[numTrain:]
 
+# Get parsed data needed for training
 def getParsedNormalizedData(fileName):
     fields, players, allData, realData = parseData(fileName)
     return fields, players, np.array(normalizeData(realData)), np.array(scorePlayers(allData))
@@ -39,6 +41,7 @@ def parseData(fileName):
     else:
         return [], {}, [], []
 
+# Formula for scoring players
 def scorePlayers(data):
     score = lambda d : d[4] + (2*d[5]) + (3*d[6]) + (4*d[7]) + d[3] + d[8] + d[11] + d[15] + (2*d[9]) - d[10]
     scores = [score(d) for d in data]
@@ -68,49 +71,37 @@ Model scoring functions
 """
 
 # Used for calculating confusion matrix and precision and accuracy for model
-def scorePredictions(predictions, answers, percentError, showGraph=0):
+def scorePredictions(predictions, answers, showGraph=0):
     assert len(predictions) == len(answers), "Num predictions must equal num answers"
-    import matplotlib.pyplot as plt
 
-    # This is the only variable we should be changing if the model is more or
-    # less accurate
-    gaps = 0.005
-
-    # Code for getting values for chart
-    groupings = {}
-    i = 0.0
     diffs = [abs(predictions[i] - answers[i]) for i in range(0, len(answers))]
     diffs.sort()
 
-    median = diffs[int(len(diffs) / 2)]
-    if len(diffs) % 2 != 0:
-        median = round((diffs[int(len(diffs)/2)] + diffs[int((len(diffs)/2))+1]) / 2.0, 3)
-    print('Median Absolute Error:', median)
-    mean = sum(diffs) / len(diffs)
-    print('Mean Absolute Error:', sum(diffs) / len(diffs))
-    std_dev = sum([(x*10000) * (x*10000) for x in diffs])
-    std_dev = math.sqrt((1.0 / len(diffs)) * std_dev) / 10000.0
-    print('Standard Deviation:', std_dev)
-    indexOf95 = int(0.95 * len(diffs))
-    prnt = 'We can say with 95% certainty that prediction x is within x -'
-    print(prnt, round(diffs[indexOf95], 4), 'and x +', round(diffs[indexOf95], 4))
-
-    max_diffs = diffs[-1] + gaps
-    while i < max_diffs:
-        groupings[round(i, 3)] = 0
-        i += gaps
-
-    for i in range(0, len(answers)):
-        unit = round(math.floor(diffs[i] * (1 / gaps)) / float(1 / gaps), 3)
-        groupings[unit] += 1
-
-    xplot = []
-    yplot = []
-    for key, value in groupings.items():
-        xplot.append('(' + str(key) + ',' + str(round(key+gaps, 3)) + ')')
-        yplot.append(value)
-
+    # If showing the graph, calculate ticks and ranges for values, display
     if showGraph:
+        import matplotlib.pyplot as plt
+        # This is the only variable we should be changing if the model is more or
+        # less accurate
+        gaps = 0.005
+        # Code for getting values for chart
+        groupings = {}
+        i = 0.0
+
+        max_diffs = diffs[-1] + gaps
+        while i < max_diffs:
+            groupings[round(i, 3)] = 0
+            i += gaps
+
+        for i in range(0, len(answers)):
+            unit = round(math.floor(diffs[i] * (1 / gaps)) / float(1 / gaps), 3)
+            groupings[unit] += 1
+
+        xplot = []
+        yplot = []
+        for key, value in groupings.items():
+            xplot.append('(' + str(key) + ',' + str(round(key+gaps, 3)) + ')')
+            yplot.append(value)
+
         plt.barh(xplot, yplot, align='center') #, alpha=0.001)
         plt.xticks(np.arange(0, max(yplot)+1, math.ceil(len(yplot) / 10)))
         plt.yticks(np.arange(0, len(yplot), 2))
@@ -118,3 +109,11 @@ def scorePredictions(predictions, answers, percentError, showGraph=0):
         plt.ylabel('Range of Mean Abolsute Error')
         plt.title('Range of Accuracy of Predictions by Model')
         plt.show()
+
+    median = diffs[int(len(diffs) / 2)]
+    if len(diffs) % 2 != 0:
+        median = round((diffs[int(len(diffs)/2)] + diffs[int((len(diffs)/2))+1]) / 2.0, 3)
+    mean = sum(diffs) / len(diffs)
+    std_dev = math.sqrt((1.0/len(diffs)) * sum([(x*10000)*2 for x in diffs])) / 10000.0
+    indexOf95 = round(diffs[int(0.95 * len(diffs))], 4)
+    return median, mean, std_dev, indexOf95
