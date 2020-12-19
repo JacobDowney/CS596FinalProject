@@ -2,7 +2,6 @@ import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
-from helpers import accuracies
 
 # Main function called form main.py that should be used to train, test, and then
 # return the predictions to main to get the confusion matrix calculated later
