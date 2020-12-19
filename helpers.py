@@ -1,6 +1,7 @@
 import csv
 import os
 import random
+import math
 import time
 import numpy as np
 
@@ -69,10 +70,38 @@ Model scoring functions
 # Used for calculating confusion matrix and precision and accuracy for model
 def scorePredictions(predictions, answers, percentError):
     assert len(predictions) == len(answers), "Num predictions must equal num answers"
+    import matplotlib.pyplot as plt
 
-    from sklean.metrics import confusion_matrix
-    conf_matrix = confusion_matrix(answers, predictions)
-    print(conf_matrix)
+    # This is the only variable we should be changing if the model is more or
+    # less accurate
+    gaps = 0.005
+
+    # Code for getting values for chart
+    groupings = {}
+    i = 0.0
+    diffs = [abs(predictions[i] - answers[i]) for i in range(0, len(answers))]
+    max_diffs = max(diffs) + gaps
+    while i < max_diffs:
+        groupings[round(i, 3)] = 0
+        i += gaps
+
+    for i in range(0, len(answers)):
+        unit = round(math.floor(diffs[i] * (1 / gaps)) / float(1 / gaps), 3)
+        groupings[unit] += 1
+
+    xplot = []
+    yplot = []
+    for key, value in groupings.items():
+        xplot.append('(' + str(key) + ',' + str(round(key+gaps, 3)) + ')')
+        yplot.append(value)
+
+    plt.barh(xplot, yplot, align='center') #, alpha=0.001)
+    plt.xticks(np.arange(0, max(yplot)+1, math.ceil(len(yplot) / 25)))
+    plt.yticks(np.arange(0, len(yplot), 2))
+    plt.xlabel('Number of Predictions in Range')
+    plt.ylabel('Range of Mean Abolsute Error')
+    plt.title('Range of Accuracy of Predictions by Model')
+    plt.show()
 
 ##### Problem 3: Comparative Studies
 # Please write a function to calculate the confusion matrix for the prediction

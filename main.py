@@ -36,8 +36,8 @@ def main():
     # MODEL # 1 JACOB ->
     # Jacobs models functions
     # Printing models outputs
-    # predModel1 = model1.execute(x_train, y_train, x_test, y_test)
-    # scorePredictions(predModel1, y_test, predictionError)
+    predModel1 = model1.execute(x_train, y_train, x_test, y_test)
+    scorePredictions(predModel1, y_test, predictionError)
 
     # MODEL # 2 WILL ->
     # Wills models functions
@@ -46,7 +46,7 @@ def main():
     # MODEL # 3 MATT ->
     # Matts models functions
     # Printing models outputs
-    model3.execute(x_train, y_train, x_test, y_test, fields)
+    # model3.execute(x_train, y_train, x_test, y_test, fields)
 
 
 
